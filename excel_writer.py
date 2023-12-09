@@ -6,7 +6,7 @@ from get_info import get_info_for_recording
 # задаем размеры полей в таблице (ширина колонок)
 # загружаем данные в таблицу по очереди, карточку за карточкой
 def writer(parametrs):
-    book = xlsxwriter.Workbook(r"C:\Studies\BS4\from website to Excel\dresses.xlsx")
+    book = xlsxwriter.Workbook(r"C:\Studies\BS4\from_website_to_Excel\dresses.xlsx")
     page = book.add_worksheet('Товар')
 
     row = 0

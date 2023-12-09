@@ -4,6 +4,13 @@ from time import sleep
 
 # передаем данные при осуществелнии запроса, чтобы сайт не распознавал как бота и не блокировал
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+# скачиваем картинки(необходимо создать папку куда помещаем картинки, перед запуском)
+def download_imgs(url):
+    resp = requests.get(url, stream=True)
+    r = open("C:\\Studies\\BS4\\from_website_to_Excel\\imgs\\" + url.split('/')[-1], "wb")
+    for value in resp.iter_content(1024*1024):
+        r.write(value)
+    r.close()
 
 # собираем ссылки на страинцы товаров и возвращаем их по одной
 def get_link():
@@ -21,7 +28,7 @@ def get_link():
 def get_info_for_recording():
     for card in get_link():
         response = requests.get(card, headers=headers).text
-        sleep(3)
+        sleep(1)
         soup = bs(response, 'lxml')
         data = soup.find('div', class_='my-8 w-full rounded border')
 
@@ -29,5 +36,6 @@ def get_info_for_recording():
         price = data.find('h4', class_='my-4 card-price').text
         description = data.find('p', class_='card-description').text
         img_link = 'https://scrapingclub.com' + data.find('img', class_='card-img-top').get('src')
+        download_imgs(img_link)
         yield name, price, description, img_link
 
